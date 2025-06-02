@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Globalization's Impact on Communication</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #0c1445 0%, #1e3c72 50%, #2a5298 100%);
+            color: white;
+            overflow-x: hidden;
+            min-height: 100vh;
+            /* Moodle embedding optimizations */
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Ensure compatibility with Moodle iframes */
+        html, body {
+            width: 100%;
+            height: 100%;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px;
+            /* Moodle-friendly container */
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.2rem;
+            margin-bottom: 8px;
+            background: linear-gradient(45deg, #64b5f6, #42a5f5, #2196f3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            /* Fallback for older browsers */
+            color: #64b5f6;
+        }
+
+        .subtitle {
+            text-align: center;
+            font-size: 1rem;
+            margin-bottom: 25px;
+            opacity: 0.8;
+        }
+
+        .timeline-container {
+            position: relative;
+            margin: 40px 0;
+        }
+
+        .timeline {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            margin-bottom: 40px;
+        }
+
+        .era-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .era-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .era-button.active {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            transform: scale(1.1);
+        }
+
+        .visualization-area {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 25px;
+            min-height: 450px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            /* Ensure proper sizing in Moodle */
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .world-map {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 500"><path d="M150,200 Q200,150 300,180 Q400,160 500,200 Q600,180 700,190 Q800,170 850,200" stroke="rgba(255,255,255,0.1)" stroke-width="2" fill="none"/><circle cx="200" cy="180" r="3" fill="rgba(255,255,255,0.2)"/><circle cx="500" cy="200" r="3" fill="rgba(255,255,255,0.2)"/><circle cx="800" cy="190" r="3" fill="rgba(255,255,255,0.2)"/></svg>');
+            background-size: cover;
+            opacity: 0.3;
+        }
+
+        .communication-network {
+            position: relative;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .node {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #64b5f6, #2196f3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 12px;
+            transition: all 0.5s ease;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(100, 181, 246, 0.4);
+        }
+
+        .node:hover {
+            transform: scale(1.2);
+            box-shadow: 0 8px 30px rgba(100, 181, 246, 0.6);
+        }
+
+        .connection {
+            position: absolute;
+            height: 2px;
+            background: linear-gradient(90deg, #64b5f6, #42a5f5);
+            transform-origin: left center;
+            opacity: 0;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px rgba(100, 181, 246, 0.5);
+        }
+
+        .connection.active {
+            opacity: 1;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+
+        .era-info {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 15px;
+            max-width: 300px;
+            backdrop-filter: blur(10px);
+        }
+
+        .era-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #64b5f6;
+        }
+
+        .era-description {
+            font-size: 0.9rem;
+            line-height: 1.4;
+            margin-bottom: 15px;
+        }
+
+        .communication-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .stat {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #64b5f6;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }
+
+        .message-flow {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: #ff6b6b;
+            border-radius: 50%;
+            opacity: 0;
+            box-shadow: 0 0 15px #ff6b6b;
+        }
+
+        .message-flow.active {
+            animation: messageFlow 3s linear infinite;
+        }
+
+        @keyframes messageFlow {
+            0% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 8px 15px;
+            border-radius: 20px;
+        }
+
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+            .timeline { flex-direction: column; gap: 8px; }
+            .era-button { font-size: 0.85rem; padding: 10px 15px; }
+            .visualization-area { padding: 15px; min-height: 350px; }
+            .era-info { position: static; margin-bottom: 15px; max-width: none; }
+            .container { padding: 10px; }
+        }
+
+        /* Additional mobile and small screen optimizations for Moodle */
+        @media (max-width: 600px) {
+            h1 { font-size: 1.5rem; }
+            .subtitle { font-size: 0.9rem; }
+            .era-button { font-size: 0.8rem; padding: 8px 12px; }
+            .visualization-area { min-height: 300px; }
+            .communication-network { height: 250px; }
+        }
+
+        /* Ensure proper display in Moodle iframe */
+        @media (max-height: 600px) {
+            .visualization-area { min-height: 300px; }
+            .communication-network { height: 250px; }
+            h1 { font-size: 1.8rem; margin-bottom: 5px; }
+            .subtitle { margin-bottom: 15px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Globalization's Impact on Communication</h1>
+        <p class="subtitle">Explore how communication evolved from local to global networks</p>
+        
+        <div class="timeline-container">
+            <div class="timeline">
+                <button class="era-button active" data-era="pre-global">Pre-1800s</button>
+                <button class="era-button" data-era="industrial">Industrial Era</button>
+                <button class="era-button" data-era="telegraph">Telegraph Age</button>
+                <button class="era-button" data-era="modern">Modern Era</button>
+                <button class="era-button" data-era="digital">Digital Age</button>
+            </div>
+        </div>
+
+        <div class="visualization-area">
+            <div class="world-map"></div>
+            <div class="communication-network" id="network"></div>
+            
+            <div class="era-info" id="eraInfo">
+                <div class="era-title" id="eraTitle">Pre-Globalization Era</div>
+                <div class="era-description" id="eraDescription">
+                    Communication was primarily local and regional. Messages traveled by foot, horseback, or sailing ships, taking weeks or months to cross continents.
+                </div>
+                <div class="communication-stats">
+                    <div class="stat">
+                        <div class="stat-value" id="speed">Weeks</div>
+                        <div class="stat-label">Delivery Time</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value" id="reach">Local</div>
+                        <div class="stat-label">Geographic Reach</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value" id="cost">High</div>
+                        <div class="stat-label">Communication Cost</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value" id="accessibility">Elite</div>
+                        <div class="stat-label">Accessibility</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color" style="background: #64b5f6;"></div>
+                <span>Communication Nodes</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #42a5f5;"></div>
+                <span>Network Connections</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #ff6b6b;"></div>
+                <span>Message Flow</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const eras = {
+            'pre-global': {
+                title: 'Pre-Globalization Era (Pre-1800s)',
+                description: 'Communication was primarily local and regional. Messages traveled by foot, horseback, or sailing ships, taking weeks or months to cross continents.',
+                speed: 'Weeks-Months',
+                reach: 'Local/Regional',
+                cost: 'Very High',
+                accessibility: 'Elite Only',
+                nodes: 3,
+                connections: 1
+            },
+            'industrial': {
+                title: 'Industrial Revolution (1800s-1850s)',
+                description: 'Steam ships and railways dramatically reduced communication time. The postal system expanded, making communication more accessible to the growing middle class.',
+                speed: 'Days-Weeks',
+                reach: 'National',
+                cost: 'High',
+                accessibility: 'Middle Class',
+                nodes: 5,
+                connections: 4
+            },
+            'telegraph': {
+                title: 'Telegraph Age (1850s-1920s)',
+                description: 'The telegraph enabled near-instantaneous long-distance communication. Transatlantic cables connected continents, creating the first global communication network.',
+                speed: 'Minutes-Hours',
+                reach: 'International',
+                cost: 'Moderate',
+                accessibility: 'Business/Gov',
+                nodes: 8,
+                connections: 12
+            },
+            'modern': {
+                title: 'Modern Era (1920s-1990s)',
+                description: 'Radio, television, and telephone networks expanded globally. Communication became faster, cheaper, and more accessible to general populations worldwide.',
+                speed: 'Seconds-Minutes',
+                reach: 'Global',
+                cost: 'Low-Moderate',
+                accessibility: 'General Public',
+                nodes: 12,
+                connections: 25
+            },
+            'digital': {
+                title: 'Digital Age (1990s-Present)',
+                description: 'Internet, mobile phones, and social media created instant global communication. Billions of people can now communicate instantly across the world at minimal cost.',
+                speed: 'Instant',
+                reach: 'Global/Universal',
+                cost: 'Very Low',
+                accessibility: 'Universal',
+                nodes: 20,
+                connections: 50
+            }
+        };
+
+        let currentEra = 'pre-global';
+        let animationInterval;
+
+        function createNetwork(nodeCount, connectionCount) {
+            const network = document.getElementById('network');
+            network.innerHTML = '';
+
+            const nodes = [];
+            const connections = [];
+
+            // Create nodes in a circular pattern
+            for (let i = 0; i < nodeCount; i++) {
+                const node = document.createElement('div');
+                node.className = 'node';
+                node.textContent = i + 1;
+                
+                const angle = (i / nodeCount) * 2 * Math.PI;
+                const radius = Math.min(150, 50 + nodeCount * 3);
+                const x = 200 + Math.cos(angle) * radius;
+                const y = 200 + Math.sin(angle) * radius;
+                
+                node.style.left = x + 'px';
+                node.style.top = y + 'px';
+                
+                network.appendChild(node);
+                nodes.push({ element: node, x: x + 20, y: y + 20 });
+            }
+
+            // Create connections
+            const connectionPairs = [];
+            for (let i = 0; i < connectionCount && i < (nodeCount * (nodeCount - 1)) / 2; i++) {
+                let from, to;
+                do {
+                    from = Math.floor(Math.random() * nodeCount);
+                    to = Math.floor(Math.random() * nodeCount);
+                } while (from === to || connectionPairs.some(pair => 
+                    (pair[0] === from && pair[1] === to) || (pair[0] === to && pair[1] === from)
+                ));
+                
+                connectionPairs.push([from, to]);
+                
+                const connection = document.createElement('div');
+                connection.className = 'connection';
+                
+                const dx = nodes[to].x - nodes[from].x;
+                const dy = nodes[to].y - nodes[from].y;
+                const length = Math.sqrt(dx * dx + dy * dy);
+                const angle = Math.atan2(dy, dx);
+                
+                connection.style.left = nodes[from].x + 'px';
+                connection.style.top = nodes[from].y + 'px';
+                connection.style.width = length + 'px';
+                connection.style.transform = `rotate(${angle}rad)`;
+                
+                network.appendChild(connection);
+                connections.push(connection);
+            }
+
+            // Animate connections
+            setTimeout(() => {
+                connections.forEach((conn, index) => {
+                    setTimeout(() => {
+                        conn.classList.add('active');
+                        animateMessage(conn);
+                    }, index * 200);
+                });
+            }, 500);
+        }
+
+        function animateMessage(connection) {
+            const message = document.createElement('div');
+            message.className = 'message-flow active';
+            connection.appendChild(message);
+            
+            setTimeout(() => {
+                message.remove();
+            }, 3000);
+        }
+
+        function updateEra(eraKey) {
+            const era = eras[eraKey];
+            
+            document.getElementById('eraTitle').textContent = era.title;
+            document.getElementById('eraDescription').textContent = era.description;
+            document.getElementById('speed').textContent = era.speed;
+            document.getElementById('reach').textContent = era.reach;
+            document.getElementById('cost').textContent = era.cost;
+            document.getElementById('accessibility').textContent = era.accessibility;
+            
+            createNetwork(era.nodes, era.connections);
+        }
+
+        // Event listeners
+        document.querySelectorAll('.era-button').forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove active class from all buttons
+                document.querySelectorAll('.era-button').forEach(btn => btn.classList.remove('active'));
+                
+                // Add active class to clicked button
+                button.classList.add('active');
+                
+                // Update era
+                const eraKey = button.dataset.era;
+                currentEra = eraKey;
+                updateEra(eraKey);
+            });
+        });
+
+        // Initialize
+        updateEra('pre-global');
+
+        // Auto-cycle through eras every 8 seconds
+        setInterval(() => {
+            const eraKeys = Object.keys(eras);
+            const currentIndex = eraKeys.indexOf(currentEra);
+            const nextIndex = (currentIndex + 1) % eraKeys.length;
+            const nextEra = eraKeys[nextIndex];
+            
+            // Trigger the button click
+            document.querySelector(`[data-era="${nextEra}"]`).click();
+        }, 8000);
+    </script>
+</body>
+</html>
